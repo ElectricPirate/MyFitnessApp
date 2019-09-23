@@ -10,7 +10,7 @@ namespace MyFitnessApp.BL.Model
 /// Пользователь.
 /// </summary>
     public class User
-    {
+    { 
         #region Свойства
         /// <summary>
         /// Имя.
