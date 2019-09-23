@@ -9,6 +9,7 @@ namespace MyFitnessApp.BL.Model
 /// <summary>
 /// Пользователь.
 /// </summary>
+    [Serializable]
     public class User
     { 
         #region Свойства
@@ -58,7 +59,7 @@ namespace MyFitnessApp.BL.Model
                 throw new ArgumentNullException("Имя пользователя не должно быть пустым или null.", nameof(name));
             }
 
-            if(Gender==null)
+            if(gender==null)
             {
                 throw new ArgumentNullException("Пол не может быть null.", nameof(gender));
             }
