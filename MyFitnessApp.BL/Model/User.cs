@@ -12,6 +12,7 @@ namespace MyFitnessApp.BL.Model
     [Serializable]
     public class User
     {
+        public readonly DateTime birthdate;
         #region Свойства
         /// <summary>
         /// Имя.
