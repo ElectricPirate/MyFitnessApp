@@ -1,4 +1,5 @@
 ﻿using MyFitnessApp.BL.Controller;
+using MyFitnessApp.BL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,21 +16,10 @@ namespace MyFitnessApp.CMD
 
             Console.WriteLine("Введите имя пользователя");
             var name = Console.ReadLine();
-
-            //Console.WriteLine("Введите пол");
-            //var gender = Console.ReadLine();
-
-            //Console.WriteLine("Введите дату рождения");
-            //var birthdate=DateTime.Parse(Console.ReadLine()); //TODO: переписать tryparse
-
-            //Console.WriteLine("Введите вес");
-            //var weight = Double.Parse(Console.ReadLine());
-
-            //Console.WriteLine("Введите рост");
-            //var height = Double.Parse(Console.ReadLine());
-
+            
             var userController = new UserController(name);
-            if(userController.IsNewUser)
+            var eatingController = new EatingController(userController.CurrentUser);
+            if (userController.IsNewUser)
             {
                 Console.Write("Введите пол: ");
                 var gender = Console.ReadLine();
@@ -44,10 +34,43 @@ namespace MyFitnessApp.CMD
             }
 
             Console.WriteLine(userController.CurrentUser);
-            Console.ReadLine();
+
+            Console.WriteLine("Что вы хотите сделать?");
+            Console.WriteLine("E - ввести прием пищи");
+            var key = Console.ReadKey();
+            Console.WriteLine();
+
+            if (key.Key == ConsoleKey.E)
+            {
+                var foods = EnterEating();
+                eatingController.Add(foods.Food, foods.Weight);
+
+                foreach (var item in eatingController.Eating.Foods)
+                {
+                    Console.WriteLine($"\t{item.Key} - {item.Value}");
+                }
+            }
+
+            Console.ReadLine();         
 
 
-            
+
+        }
+        private static (Food Food, double Weight) EnterEating()
+        {
+            Console.Write("Введите имя продукта: ");
+            var food = Console.ReadLine();
+
+            var calories = ParseDouble("калорийность");
+            var prots = ParseDouble("белки");
+            var fats = ParseDouble("жиры");
+            var carbs = ParseDouble("углеводы");
+
+            var weight = ParseDouble("вес порции");
+            var product = new Food(food, calories, prots, fats, carbs);
+
+
+            return (Food: product, Weight: weight);
         }
 
         private static DateTime ParseDateTime()
@@ -79,8 +102,8 @@ namespace MyFitnessApp.CMD
                     return value;
                 }
                 else
-                {
-                    Console.WriteLine($"Неверный формат {name}a.");
+                {                    
+                    Console.WriteLine($"Неверный формат поля {name}");
                 }
             }
         }
