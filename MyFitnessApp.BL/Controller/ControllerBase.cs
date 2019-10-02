@@ -32,7 +32,7 @@ namespace MyFitnessApp.BL.Controller
                 }
                 else
                 {
-                    return default(T); 
+                    return default; 
                 }
             }
         }

@@ -31,16 +31,35 @@ namespace MyFitnessApp.BL.Model
         /// </summary>
         public double Calories { get; }
 
-        //private double CaloriesPerGramm { get { return Calories / 100.0; } }
-        //private double ProteinsPerGramm { get { return Proteins / 100.0; } }
-        //private double FatsPerGramm { get { return Fats / 100.0; } }
-        //private double CarbohydratesPerGramm { get { return Carbohydrates / 100.0; } }
-
         public Food(string name) : this(name, 0, 0, 0, 0) { }
             
         public Food(string name, double calories, double proteins, double fats, double carbohydrates)
         {
-            /// TODO: проверка
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Название еды не может быть пустым.", nameof(name));
+            }
+
+            if(calories<=0)
+            {
+                throw new ArgumentException("Калорийность не может быть меньше либо равной нулю.", nameof(calories));
+            }
+
+            if (proteins <= 0)
+            {
+                throw new ArgumentException("Содержание белков не может быть меньше либо равно нулю.", nameof(proteins));
+            }
+
+            if (fats <= 0)
+            {
+                throw new ArgumentException("Содержание жиров не может быть меньше либо равно нулю.", nameof(fats));
+            }
+
+            if (carbohydrates <= 0)
+            {
+                throw new ArgumentException("Содержание углеводов не может быть меньше либо равно нулю.", nameof(carbohydrates));
+            }
+
             Name = name;
             Calories = calories / 100.0;
             Proteins = proteins / 100.0;
