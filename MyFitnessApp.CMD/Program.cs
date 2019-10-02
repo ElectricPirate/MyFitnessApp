@@ -2,7 +2,9 @@
 using MyFitnessApp.BL.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,16 +14,19 @@ namespace MyFitnessApp.CMD
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Вас приветствует приложение MyFitnessApp");
+            var culture = CultureInfo.CreateSpecificCulture("ru-ru");
+            var resourceManager = new ResourceManager("MyFitnessApp.CMD.Languages.Messages", typeof(Program).Assembly);
 
-            Console.WriteLine("Введите имя пользователя");
+            Console.WriteLine(resourceManager.GetString("Hello", culture));
+            
+            Console.WriteLine(resourceManager.GetString("EnterName", culture));
             var name = Console.ReadLine();
             
             var userController = new UserController(name);
             var eatingController = new EatingController(userController.CurrentUser);
             if (userController.IsNewUser)
             {
-                Console.Write("Введите пол: ");
+                Console.Write(resourceManager.GetString("EnterGender", culture));
                 var gender = Console.ReadLine();
                 var birthDate = ParseDateTime();
                 var weigth = ParseDouble("вес");
