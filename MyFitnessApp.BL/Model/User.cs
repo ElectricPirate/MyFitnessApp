@@ -12,22 +12,24 @@ namespace MyFitnessApp.BL.Model
     [Serializable]
     public class User
     {
-        public readonly DateTime birthdate;
+        public int Id { get; set; }
+        
         #region Свойства
         /// <summary>
         /// Имя.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Пол.
         /// </summary>
-        public Gender Gender { get; set; }
+        public int? GenderId { get; set; }
+        public virtual Gender Gender { get; set; }
 
         /// <summary>
         /// Дата рождения.
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Вес.
@@ -38,6 +40,9 @@ namespace MyFitnessApp.BL.Model
         /// Рост.
         /// </summary>
         public double Height { get; set; }
+
+        public virtual ICollection<Eating> Eatings { get; set; }
+        public virtual ICollection<Exercise> Exercises { get; set; }
 
         public int Age { get { return DateTime.Now.Year - BirthDate.Year; } }
         #endregion
@@ -50,6 +55,8 @@ namespace MyFitnessApp.BL.Model
         /// <param name="birthDate"> Дата рождения. </param>
         /// <param name="weight"> Вес. </param>
         /// <param name="height"> Рост. </param>
+        
+        public User() { }
         public User(string name,
                     Gender gender,
                     DateTime birthDate,

@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFitnessApp.BL.Controller
-{/// <summary>
-/// Контроллер пользователя.
-/// </summary>
+{
+    /// <summary>
+    /// Контроллер пользователя.
+    /// </summary>
     public class UserController : ControllerBase
-    {
-        private const string USERS_FILE_NAME = "users.dat";
+    {       
         /// <summary>
         /// Пользователь приложения.
         /// </summary>
@@ -42,8 +42,7 @@ namespace MyFitnessApp.BL.Controller
             {
                 CurrentUser = new User(userName);
                 Users.Add(CurrentUser);
-                IsNewUser = true;
-                Save();
+                IsNewUser = true;                
             }            
                   
         }
@@ -54,12 +53,15 @@ namespace MyFitnessApp.BL.Controller
         /// <returns></returns>
         private List<User> GetUserData()
         {
-            return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
+            return Load<User>() ?? new List<User>();
         }
 
-        public void SetNewUserData(string genderName, DateTime birthDate, double weight=1, double height=1)
+        public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
         {
-            //Проверка
+            if (string.IsNullOrWhiteSpace(genderName))
+            {
+                throw new ArgumentNullException("Пол не может быть пустым", nameof(genderName));
+            }
 
             CurrentUser.Gender = new Gender(genderName);
             CurrentUser.BirthDate = birthDate;
@@ -73,7 +75,7 @@ namespace MyFitnessApp.BL.Controller
         /// </summary>
         public void Save()
         {
-            Save(USERS_FILE_NAME, Users);
+            Save(Users);
         }
         
     }
